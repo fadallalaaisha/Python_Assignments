@@ -1,7 +1,7 @@
 from datetime import datetime
 
 class Account:
-    def __init__(self,name,phone,transactions):
+    def __init__(self,name,phone):
      self.name=name
      self.phone=phone
      self.balance=0
@@ -10,6 +10,10 @@ class Account:
      self.transactions=[]
 
     def deposit(self,amount):
+        try:
+                1+amount
+        except TypeError:
+            return f"The amount must be in figures"
         if amount<=0:
             return f"Your {amount} is greater then zero"
         else:
@@ -22,6 +26,11 @@ class Account:
         return self.balance
 
     def withdraw(self,amount):
+        try:
+                1+amount
+        except TypeError:
+            return f"The amount must be in figures"
+
         if amount > 0:
             return f"Dear {self.name} you have withdrawn {amount}"
         elif amount <= 0:
@@ -59,9 +68,52 @@ class Account:
         else:
             difference=amount-self.loan
             self.balance+=difference
-            return f"Thanks you have cleared your loan {self.loan} and the new balance is {self.balance}"
+            self.loan=0
+            return f"Thank you,You have cleared your loan {self.loan} and the new balance is {self.balance}"
+    
+    
+    def transfer(self,amount,account):
+        try:
+                1+amount
+        except TypeError:
+            return f"The amount must be in figures"
 
-               
+        if amount<0:
+             return f"Your {amount} is less then zero"
+
+        fee = amount*0.05
+        if amount+fee>self.balance:
+            return f"Your account balance is {self.balance}, you need {amount+fee}" 
+        else:
+         self.balance-=amount+fee
+         account.deposit(amount)
+         return f"You have transfered successfully"  
+
+
+class MMAccount(Account):
+    def __init__(self, name, phone,serviceProvider):
+        super().__init__(name,phone)
+        self.serviceProvider=serviceProvider
+        self.limit = 500  
+    def buy_airtime(self,amount):
+
+        
+        try:
+                1+amount
+        except TypeError:
+            return f"The amount must be in figures"
+
+        if amount<5:
+            return f"Dear {self.name} you have purchase 5 and above airtime"
+        else:
+        
+            self.balance-=amount
+            return f"Dear {self.name} you have successfully purchased {amount} your new banace is {self.balance}"
+        
+                       
+
+             
+       
 
 
 
